@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 15:59:19 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/04 16:09:43 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/04 16:41:50 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ t_arguments	*set_arguments(int argc, char *argv[])
 {
 	t_arguments	*args;
 
-	args = (t_arguments *)malloc(sizeof(t_arguments));
-	if (!args)
-		error_exit("args malloc error");
+	args = ft_calloc(1, sizeof(t_arguments));
 	args->n_of_philo = parse_atoi(argv[1]);
 	args->time_to_die = parse_atoi(argv[2]);
 	args->time_to_eat = parse_atoi(argv[3]);
