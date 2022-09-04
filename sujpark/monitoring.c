@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 16:12:24 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/04 20:24:58 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/04 20:42:03 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	monitor_mutex_init(t_monitor *monitor)
 	}
 	pthread_mutex_init(&monitor->mutex_is_die, NULL);
 	pthread_mutex_init(&monitor->mutex_print, NULL);
-	pthread_mutex_init(&monitor->mutex_start, NULL);
+	pthread_mutex_init(&monitor->mutex_is_start, NULL);
 }
 
 void	monitor_init(t_monitor *monitor)
@@ -33,9 +33,9 @@ void	monitor_init(t_monitor *monitor)
 	monitor_mutex_init(monitor);
 	monitor->is_die = 0;
 	philos_init(monitor);
-	pthread_mutex_lock(&monitor->mutex_start);
+	set_is_start(&monitor->mutex_is_start, &monitor->is_start);
 	run_philos(monitor);
-	pthread_mutex_unlock(&monitor->mutex_start);
+	set_is_not_start(&monitor->mutex_is_start, &monitor->is_start);
 }
 
 void	monitor_malloc(t_monitor *monitor, void *args)

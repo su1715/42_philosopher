@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 15:16:06 by kipark            #+#    #+#             */
-/*   Updated: 2022/08/22 15:32:59 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/04 21:01:03 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	*philo_run(void *philos)
 	while (check_philo_die(this_philo) == 0 && \
 				this_philo->eat_count != 0)
 	{
+		//eat
 		philo_lock_forks(this_philo);
 		philo_action_and_print(this_philo, "is eating\n", TIME_TO_EAT);
 		philo_unlock_forks(this_philo);
