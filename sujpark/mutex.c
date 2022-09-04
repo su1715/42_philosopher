@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:25:02 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/04 22:09:26 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/04 22:52:09 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,37 @@ void	philo_print(t_philo *philo, char *strs) // 공부
 		return;
 	printf("%04ld %d %s\n", get_diff_time(*philo->start_time), philo->index, strs);
 	pthread_mutex_unlock(philo->mutex_print);
+}
+
+int	check_philo_starve(t_monitor *monitor, t_philo *philo)
+{
+	t_timeval	last_eat;
+	int			time_to_die;
+	int			is_starve;
+
+	is_starve = 0;
+	last_eat = philo->last_eat;
+	time_to_die = monitor->args->time_to_die;
+	pthread_mutex_lock(monitor->mutex_last_eat); // last_eat 아니고 last_eat[i]...
+	if (get_diff_time(last_eat) >= time_to_die)
+		is_starve = 1;
+	pthread_mutex_unlock(monitor->mutex_last_eat);
+	return (is_starve);
+}
+
+int	check_philos_must_eat(t_monitor *monitor)
+{
+	int	i;
+	int	all_eat;
+
+	i = -1;
+	all_eat = 1;
+	while(++i < monitor->args->n_of_philo)
+	{
+		pthread_mutex_lock(&monitor->mutex_cnt_eat[i]);
+		if (monitor->args->n_of_must_eat > monitor->philos[i].cnt_eat)
+			all_eat = 0;
+		pthread_mutex_unlock(&monitor->mutex_cnt_eat[i]);
+	}
+	return (all_eat);
 }

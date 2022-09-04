@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 16:12:24 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/04 20:42:03 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/04 22:53:57 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	monitor_mutex_init(t_monitor *monitor)
 	i = -1;
 	while (++i < monitor->args->n_of_philo)
 	{
+		pthread_mutex_init(&monitor->mutex_cnt_eat[i], NULL);
 		pthread_mutex_init(&monitor->mutex_forks[i], NULL);
 		pthread_mutex_init(&monitor->mutex_last_eat[i], NULL);
 	}
@@ -46,6 +47,7 @@ void	monitor_malloc(t_monitor *monitor, void *args)
 	n_of_philo = monitor->args->n_of_philo;
 	monitor->thread_philos = ft_calloc(n_of_philo, sizeof(pthread_t));
 	monitor->philos = ft_calloc(n_of_philo, sizeof(t_philo));
+	monitor->mutex_cnt_eat = ft_calloc(n_of_philo, sizeof(pthread_mutex_t));
 	monitor->mutex_forks = ft_calloc(n_of_philo, sizeof(pthread_mutex_t));
 	monitor->mutex_last_eat = ft_calloc(n_of_philo, sizeof(pthread_mutex_t));
 }
@@ -61,18 +63,17 @@ static void	*run_monitor(void *args)
 	i = -1;
 	while (1)
 	{
-		// if (check_philo_last_eat(monitor, \
-		// 	&monitor->philosophers[++i % monitor->all_philo_number].last_eat, \
-		// 	monitor->get_parse[TIME_TO_DIE]) || \
-		// 	check_count_all_eat_mutex_flag(monitor->all_eat_mutex, \
-		// 	monitor->all_eat_count, monitor->all_philo_number))
-		// {
-		// 	philo_print(&monitor->philosophers[i % monitor->all_philo_number], \
-		// 														"is died\n");
-		// 	pthread_mutex_lock(monitor->print_mutex);
-		// 	set_die_mutex_flag(monitor->die_mutex, monitor->die_flag);
-		// 	break ;
-		// }
+		i = ++i % monitor->args->n_of_philo;
+		if (check_philo_last_eat(monitor, &monitor->philos[i]) \ // 여기 고치기
+			|| check_philos_must_eat(monitor))
+		{
+			// 그리고 여기부터
+			philo_print(&monitor->philos[i % monitor->args->n_of_philo], \
+																"is died\n");
+			pthread_mutex_lock(&monitor->mutex_print); // unlock은 ?
+			set_die_mutex_flag(monitor->mutex_is_die, monitor->is_die);
+			break ;
+		}
 	}
 	//philo_wait_and_free(monitor);
 	return (NULL); // 꼭 반환?

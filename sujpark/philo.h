@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 14:23:26 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/04 22:27:05 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/04 22:43:43 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_monitor
 
 	int				is_die;
 	int				is_start;
+	pthread_mutex_t *mutex_cnt_eat;
 	pthread_mutex_t	*mutex_forks;
 	pthread_mutex_t	*mutex_last_eat;
 	pthread_mutex_t	mutex_is_die;
