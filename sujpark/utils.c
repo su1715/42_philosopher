@@ -6,13 +6,13 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 15:58:37 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 15:56:48 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/05 19:44:09 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	error_exit(char * str)
+int	error_exit(char *str)
 {
 	perror(str);
 	exit(1);
