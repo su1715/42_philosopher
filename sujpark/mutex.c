@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:25:02 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/04 22:52:09 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/05 13:31:23 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	set_is_not_start(pthread_mutex_t *mutex_is_start, int *is_start)
 	pthread_mutex_unlock(mutex_is_start);
 }
 
-int	check_is_die(pthread_mutex_t *mutex_is_die, int *is_die)
+int	check_is_die(pthread_mutex_t *mutex_is_die, int is_die)
 {
 	int	die;
 
@@ -65,11 +65,14 @@ void	philo_unlock_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->fork_right);
 }
 
-void	philo_print(t_philo *philo, char *strs) // 공부
+void	philo_print(t_philo *philo, char *strs)
 {
 	pthread_mutex_lock(philo->mutex_print);
 	if (check_philo_die(philo))
-		return;
+	{
+		pthread_mutex_unlock(philo->mutex_print);
+		return ;
+	}
 	printf("%04ld %d %s\n", get_diff_time(*philo->start_time), philo->index, strs);
 	pthread_mutex_unlock(philo->mutex_print);
 }
@@ -83,7 +86,7 @@ int	check_philo_starve(t_monitor *monitor, t_philo *philo)
 	is_starve = 0;
 	last_eat = philo->last_eat;
 	time_to_die = monitor->args->time_to_die;
-	pthread_mutex_lock(monitor->mutex_last_eat); // last_eat 아니고 last_eat[i]...
+	pthread_mutex_lock(monitor->mutex_last_eat);
 	if (get_diff_time(last_eat) >= time_to_die)
 		is_starve = 1;
 	pthread_mutex_unlock(monitor->mutex_last_eat);
@@ -105,4 +108,11 @@ int	check_philos_must_eat(t_monitor *monitor)
 		pthread_mutex_unlock(&monitor->mutex_cnt_eat[i]);
 	}
 	return (all_eat);
+}
+
+void	set_is_die(pthread_mutex_t *mutex_is_die, int is_die)
+{
+	pthread_mutex_lock(mutex_is_die);
+	is_die = 1;
+	pthread_mutex_unlock(mutex_is_die);
 }

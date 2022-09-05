@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 14:23:26 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/04 22:43:43 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/05 14:08:23 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,14 @@ void	run_philos(t_monitor *monitor);
 void	set_last_eat(pthread_mutex_t *mutex_last_eat, t_timeval *last_eat);
 void	set_is_start(pthread_mutex_t *mutex_is_start, int *is_start);
 void	set_is_not_start(pthread_mutex_t *mutex_is_start, int *is_start);
-int		check_is_die(pthread_mutex_t *mutex_is_die, int *is_die);
+int	check_is_die(pthread_mutex_t *mutex_is_die, int is_die);
 void	philo_lock_forks(t_philo *philo);
 void	philo_unlock_forks(t_philo *this_philo);
 void	philo_print(t_philo *philo, char *strs);
+int		check_philo_starve(t_monitor *monitor, t_philo *philo);
+int		check_philos_must_eat(t_monitor *monitor);
+void	set_is_die(pthread_mutex_t *mutex_is_die, int is_die);
+
+/* free.c */
+void	clean_up(t_monitor *monitor);
 # endif
