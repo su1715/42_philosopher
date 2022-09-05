@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:25:02 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 13:31:23 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/05 15:59:25 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@ void	set_is_start(pthread_mutex_t *mutex_is_start, int *is_start)
 {
 	pthread_mutex_lock(mutex_is_start);
 	*is_start = 1;
-	pthread_mutex_unlock(mutex_is_start);
-}
-
-void	set_is_not_start(pthread_mutex_t *mutex_is_start, int *is_start)
-{
-	pthread_mutex_lock(mutex_is_start);
-	*is_start = 0;
 	pthread_mutex_unlock(mutex_is_start);
 }
 
@@ -73,7 +66,7 @@ void	philo_print(t_philo *philo, char *strs)
 		pthread_mutex_unlock(philo->mutex_print);
 		return ;
 	}
-	printf("%04ld %d %s\n", get_diff_time(*philo->start_time), philo->index, strs);
+	printf("%04ld %d %s\n", get_time_diff(*philo->start_time), philo->index, strs);
 	pthread_mutex_unlock(philo->mutex_print);
 }
 
@@ -87,7 +80,7 @@ int	check_philo_starve(t_monitor *monitor, t_philo *philo)
 	last_eat = philo->last_eat;
 	time_to_die = monitor->args->time_to_die;
 	pthread_mutex_lock(monitor->mutex_last_eat);
-	if (get_diff_time(last_eat) >= time_to_die)
+	if (get_time_diff(last_eat) >= time_to_die)
 		is_starve = 1;
 	pthread_mutex_unlock(monitor->mutex_last_eat);
 	return (is_starve);
@@ -98,6 +91,8 @@ int	check_philos_must_eat(t_monitor *monitor)
 	int	i;
 	int	all_eat;
 
+	if (monitor->args->n_of_must_eat == -1)
+		return (0);
 	i = -1;
 	all_eat = 1;
 	while(++i < monitor->args->n_of_philo)
@@ -115,4 +110,14 @@ void	set_is_die(pthread_mutex_t *mutex_is_die, int is_die)
 	pthread_mutex_lock(mutex_is_die);
 	is_die = 1;
 	pthread_mutex_unlock(mutex_is_die);
+}
+
+int	check_is_start(t_philo *philo)
+{
+	int	start;
+
+	pthread_mutex_lock(philo->mutex_is_start);
+	start = *philo->is_start;
+	pthread_mutex_unlock(philo->mutex_is_start);
+	return (start);
 }

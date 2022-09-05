@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 15:59:19 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/04 16:41:50 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/05 14:49:17 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@ int	check_str_error(char *str)
 {
 	int	i;
 
-	i = 0;
-	while (str[i])
+	i = -1;
+	while (str[++i])
 	{
 		if (!(ft_isdigit(str[i])))
 			if (!(i == 0 && str[i] == '+'))
 				return (1);
-		++i;
 	}
 	return (0);
 }
@@ -39,9 +38,9 @@ void	check_parse_error(char *argv[])
 	}
 }
 
-long int	parse_atoi(const char *str) // long int ?
+long long	parse_atoi(const char *str)
 {
-	long int	temp;
+	long long	temp;
 
 	temp = 0;
 	if (*str == '+')

@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:23:48 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/04 22:28:27 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/05 15:48:20 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	*run_philo(void *void_philo)
 	t_philo	*philo;
 
 	philo = (t_philo *)void_philo;
-	while (!*philo->is_start)
+	while (!check_is_start(philo))
 		;
 	while (!check_philo_die(philo) && philo->args->n_of_must_eat != 0)
 	{
@@ -56,7 +56,7 @@ void	*run_philo(void *void_philo)
 	return (NULL);
 }
 
-void	philos_init(t_monitor *monitor)
+void	init_philos(t_monitor *monitor)
 {
 	int		i;
 	int		n_of_philo;
@@ -73,6 +73,7 @@ void	philos_init(t_monitor *monitor)
 		philo->is_die = &monitor->is_die;
 		philo->is_start = &monitor->is_start;
 		philo->mutex_is_die = &monitor->mutex_is_die;
+		philo->mutex_is_start = &monitor->mutex_is_start;
 		philo->mutex_print = &monitor->mutex_print;
 		philo->mutex_last_eat = &monitor->mutex_last_eat[i];
 		philo->fork_left = &monitor->mutex_forks[i];
@@ -81,20 +82,32 @@ void	philos_init(t_monitor *monitor)
 	}
 }
 
+void	record_times(t_monitor *monitor)
+{
+	int		i;
+	t_philo	philo;
+
+	i = -1;
+	gettimeofday(&monitor->start_time, NULL);
+	while (++i < monitor->args->n_of_philo)
+	{
+		philo = monitor->philos[i];
+		set_last_eat(&philo.mutex_last_eat, &philo.last_eat);
+	}
+}
+
 void	run_philos(t_monitor *monitor)
 {
-	int	i;
-	int	n_of_philo;
+	int			i;
+	pthread_t	thread_philo;
+	t_philo		philo;
 
 	i = -1;
-	n_of_philo = monitor->args->n_of_philo;
-	while (++i < n_of_philo)
-		if (pthread_create(&monitor->thread_philos[i], NULL, run_philo, \
-		&monitor->philos[i]))
+	while (++i < monitor->args->n_of_philo)
+	{
+		thread_philo = monitor->thread_philos[i];
+		philo = monitor->philos[i];
+		if (pthread_create(&thread_philo, NULL, run_philo, &philo))
 			error_exit('thread_philo create error');
-
-	i = -1;
-	while (++i < n_of_philo)
-		set_last_eat(monitor->philos[i].mutex_last_eat, &monitor->philos[i].last_eat);
-	gettimeofday(&monitor->start_time, NULL);
+	}
 }

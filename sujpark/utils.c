@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 15:58:37 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/04 22:07:00 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/05 15:56:48 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (ptr);
 }
 
-long	get_diff_time(t_timeval start_time)
+long	get_time_diff(t_timeval start_time)
 {
 	t_timeval	end_time;
 	long		end_time_int;
