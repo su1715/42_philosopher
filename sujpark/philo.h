@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 14:23:26 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 21:51:57 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/05 22:52:29 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@
 # define STATE_SLEEP 3
 # define STATE_THINK 4
 
+# define TOO_BIG -2
+
 typedef struct timeval	t_timeval;
 
 typedef struct s_arguments
 {
-	int				n_of_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				n_of_must_eat;
+	int	n_of_philo;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	n_of_must_eat;
 }			t_arguments;
 
 typedef struct s_philo
@@ -72,12 +74,8 @@ typedef struct s_monitor
 }			t_monitor;
 
 /* utils.c */
-int			error_exit(char *str);
 int			ft_isdigit(int c);
-void		*ft_calloc(size_t count, size_t size);
 long		get_time_diff(t_timeval start_time);
-
-/* utils2.c */
 char		*get_state_str(int state);
 void		ms_usleep(int ms_second);
 
@@ -89,7 +87,7 @@ void		monitoring(t_arguments *args);
 
 /* philo.c */
 void		init_philos(t_monitor *monitor);
-void		run_philos(t_monitor *monitor);
+int			run_philos(t_monitor *monitor);
 void		record_times(t_monitor *monitor);
 
 /* philo_util.c */
@@ -113,9 +111,16 @@ void		philo_eat(t_philo *philo);
 void		philo_sleep(t_philo *philo);
 void		philo_think(t_philo *philo);
 
+/* error.c */
+int			check_allocate_monitor_error(t_monitor *monitor);
+int			check_args_too_big(t_arguments	*args);
+void		print_error(char *str);
+
 /* free.c */
+void		destroy_mutexes(t_monitor *monitor);
+void		free_monitor(t_monitor *monitor);
 void		clean_up(t_monitor *monitor);
-# endif
+#endif
 
 /*
 [o] 파일 정리
@@ -126,9 +131,6 @@ void		clean_up(t_monitor *monitor);
 [] 주석제거
 [] norminette
 [] 헤더 체크
-[] perror, exit 빼기
 [] 1명 예외처리
-[o] cnt_eat mutex 처리
-[o] index 1 부터~
-[o] 재우기 (쥐는 방향과 시작 번호 고려)
+[] 포크 변수 선언
 */

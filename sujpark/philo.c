@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:23:48 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 21:41:29 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/05 22:51:02 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	record_times(t_monitor *monitor)
 	}
 }
 
-void	run_philos(t_monitor *monitor)
+int	run_philos(t_monitor *monitor)
 {
 	int			i;
 	pthread_t	thread_philo;
@@ -86,6 +86,13 @@ void	run_philos(t_monitor *monitor)
 		thread_philo = monitor->thread_philos[i];
 		philo = &monitor->philos[i];
 		if (pthread_create(&thread_philo, NULL, run_philo, philo))
-			error_exit("thread_philo create error");
+		{
+			monitor->is_die = 1;
+			set_flag(&monitor->mutex_is_start, &monitor->is_start);
+			while (i--)
+				pthread_join(monitor->thread_philos[i], NULL);
+			return (1);
+		}
 	}
+	return (0);
 }

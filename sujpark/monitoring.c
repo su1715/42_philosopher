@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 16:12:24 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 21:41:09 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/05 22:47:24 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,22 @@ void	monitor_mutex_init(t_monitor *monitor)
 	pthread_mutex_init(&monitor->mutex_is_start, NULL);
 }
 
-void	init_monitor(t_monitor *monitor)
+int	init_monitor(t_monitor *monitor)
 {
 	monitor->is_die = 0;
 	monitor->is_start = 0;
 	monitor_mutex_init(monitor);
 	init_philos(monitor);
-	run_philos(monitor);
+	if (run_philos(monitor))
+	{
+		destroy_mutexes(monitor);
+		free_monitor(monitor);
+		print_error("run philo error");
+		return (1);
+	}
 	record_times(monitor);
 	set_flag(&monitor->mutex_is_start, &monitor->is_start);
+	return (0);
 }
 
 t_monitor	*allocate_monitor(void *args)
@@ -44,14 +51,21 @@ t_monitor	*allocate_monitor(void *args)
 	t_monitor	*monitor;
 	int			n_of_philo;
 
-	monitor = ft_calloc(1, sizeof(t_monitor));
+	monitor = malloc(sizeof(t_monitor));
+	if (!monitor)
+		return (NULL);
 	monitor->args = (t_arguments *)args;
 	n_of_philo = monitor->args->n_of_philo;
-	monitor->thread_philos = ft_calloc(n_of_philo, sizeof(pthread_t));
-	monitor->philos = ft_calloc(n_of_philo, sizeof(t_philo));
-	monitor->mutex_cnt_eat = ft_calloc(n_of_philo, sizeof(pthread_mutex_t));
-	monitor->mutex_forks = ft_calloc(n_of_philo, sizeof(pthread_mutex_t));
-	monitor->mutex_last_eat = ft_calloc(n_of_philo, sizeof(pthread_mutex_t));
+	monitor->thread_philos = malloc(n_of_philo * sizeof(pthread_t));
+	monitor->philos = malloc(n_of_philo * sizeof(t_philo));
+	monitor->mutex_cnt_eat = malloc(n_of_philo * sizeof(pthread_mutex_t));
+	monitor->mutex_forks = malloc(n_of_philo * sizeof(pthread_mutex_t));
+	monitor->mutex_last_eat = malloc(n_of_philo * sizeof(pthread_mutex_t));
+	if (check_allocate_monitor_error(monitor))
+	{
+		free(monitor);
+		return (NULL);
+	}
 	return (monitor);
 }
 
@@ -62,7 +76,13 @@ void	*run_monitor(void *args)
 
 	i = -1;
 	monitor = allocate_monitor(args);
-	init_monitor(monitor);
+	if (!monitor)
+	{
+		print_error("allocate_monitor error");
+		return (NULL);
+	}
+	if (init_monitor(monitor))
+		return (NULL);
 	while (1)
 	{
 		i = (i + 1) % monitor->args->n_of_philo;
@@ -83,6 +103,9 @@ void	monitoring(t_arguments *args)
 	pthread_t	thread_monitor;
 
 	if (pthread_create(&thread_monitor, NULL, run_monitor, args))
-		error_exit("thread_monitor create error");
+	{
+		print_error("thread_monitor create error");
+		return ;
+	}
 	pthread_join(thread_monitor, NULL);
 }
