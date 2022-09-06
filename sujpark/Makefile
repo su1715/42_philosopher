@@ -6,7 +6,7 @@
 #    By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/05 17:37:06 by sujpark           #+#    #+#              #
-#    Updated: 2022/09/06 11:57:59 by sujpark          ###   ########.fr        #
+#    Updated: 2022/09/06 13:02:19 by sujpark          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@ SRCS	:=	check_flag.c free.c main.c monitoring.c philo_util.c parse.c \
 OBJS	:=	$(SRCS:.c=.o)
 
 CC		:=	cc
-CFLAGS	:=	-Wall -Wextra -Werror #-g -fsanitize=address
-LDFLAGS	:=	-Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS	:=	-Wall -Wextra -Werror
+LDFLAGS	:=	-Wall -Wextra -Werror
 
 RM		:=	rm -f
 
