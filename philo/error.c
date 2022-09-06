@@ -6,11 +6,38 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 22:10:17 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 22:29:10 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 18:37:54 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	check_str_error(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (!(ft_isdigit(str[i])))
+			if (!(i == 0 && str[i] == '+'))
+				return (1);
+	}
+	return (0);
+}
+
+int	check_parse_error(char *argv[])
+{
+	int	i;
+
+	i = 0;
+	while (argv[++i] != NULL)
+	{
+		if (check_str_error(argv[i]))
+			return (1);
+	}
+	return (0);
+}
 
 int	check_args_too_big(t_arguments	*args)
 {

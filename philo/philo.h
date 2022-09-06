@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 14:23:26 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/06 12:24:33 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 18:37:50 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void		philo_sleep(t_philo *philo);
 void		philo_think(t_philo *philo);
 
 /* error.c */
+int			check_parse_error(char *argv[]);
 int			check_allocate_monitor_error(t_monitor *monitor);
 int			check_args_too_big(t_arguments	*args);
 void		print_error(char *str);

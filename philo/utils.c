@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 15:58:37 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/06 14:39:06 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 18:50:34 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ void	ms_usleep(int ms_second)
 
 	gettimeofday(&start_time, NULL);
 	while (get_time_diff(start_time) < ms_second)
-		usleep(500);
+		usleep(250);
 }

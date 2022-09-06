@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:23:48 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/06 14:38:43 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 14:46:04 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*run_philo(void *void_philo)
 	philo = (t_philo *)void_philo;
 	while (!check_is_start(philo))
 		;
-	if (philo->index % 2 == 1)
+	if (philo->index % 2 == 1 && philo->args->n_of_philo != 1)
 		ms_usleep(philo->args->time_to_eat * 0.1);
 	while (!check_is_die(philo) && philo->args->n_of_must_eat != 0)
 	{

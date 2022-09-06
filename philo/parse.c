@@ -6,38 +6,11 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 15:59:19 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 22:31:40 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 18:43:34 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	check_str_error(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (!(ft_isdigit(str[i])))
-			if (!(i == 0 && str[i] == '+'))
-				return (1);
-	}
-	return (0);
-}
-
-int	check_parse_error(char *argv[])
-{
-	int	i;
-
-	i = 0;
-	while (argv[++i] != NULL)
-	{
-		if (check_str_error(argv[i]))
-			return (1);
-	}
-	return (0);
-}
 
 long long	parse_atoi(const char *str)
 {
@@ -60,6 +33,21 @@ long long	parse_atoi(const char *str)
 	return (temp);
 }
 
+int	args_atoi(int argc, char *argv[], t_arguments *args)
+{
+	args->n_of_philo = parse_atoi(argv[1]);
+	if (args->n_of_philo == 0)
+		return (1);
+	args->time_to_die = parse_atoi(argv[2]);
+	args->time_to_eat = parse_atoi(argv[3]);
+	args->time_to_sleep = parse_atoi(argv[4]);
+	if (argc == 6)
+		args->n_of_must_eat = parse_atoi(argv[5]);
+	else
+		args->n_of_must_eat = -1;
+	return (0);
+}
+
 t_arguments	*set_arguments(int argc, char *argv[])
 {
 	t_arguments	*args;
@@ -70,16 +58,9 @@ t_arguments	*set_arguments(int argc, char *argv[])
 		print_error("malloc args error");
 		return (NULL);
 	}
-	args->n_of_philo = parse_atoi(argv[1]);
-	args->time_to_die = parse_atoi(argv[2]);
-	args->time_to_eat = parse_atoi(argv[3]);
-	args->time_to_sleep = parse_atoi(argv[4]);
-	if (argc == 6)
-		args->n_of_must_eat = parse_atoi(argv[5]);
-	else
-		args->n_of_must_eat = -1;
-	if (check_args_too_big(args))
+	if (args_atoi(argc, argv, args) || check_args_too_big(args))
 	{
+		print_error("args atoi error");
 		free(args);
 		return (NULL);
 	}

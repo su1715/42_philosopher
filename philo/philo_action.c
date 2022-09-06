@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 17:28:12 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/06 14:37:57 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 18:47:33 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ void	philo_think(t_philo *philo)
 	if (check_is_die(philo))
 		return ;
 	philo_print(philo, STATE_THINK);
-	usleep(400);
+	// usleep(400);
+	ms_usleep(philo->args->time_to_eat - philo->args->time_to_sleep + 1); // ex
 }
