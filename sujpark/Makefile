@@ -6,14 +6,15 @@
 #    By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/05 17:37:06 by sujpark           #+#    #+#              #
-#    Updated: 2022/09/05 22:52:01 by sujpark          ###   ########.fr        #
+#    Updated: 2022/09/06 11:57:59 by sujpark          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	:=	philosopher
+NAME	:=	philo
 
 SRCS	:=	check_flag.c free.c main.c monitoring.c philo_util.c parse.c \
-			philo.c philo_action.c set_flag.c utils.c error.c
+			philo.c philo_action.c set_flag.c utils.c error.c philo_fork.c \
+			init_monitor.c
 OBJS	:=	$(SRCS:.c=.o)
 
 CC		:=	cc

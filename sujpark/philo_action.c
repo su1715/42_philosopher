@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 17:28:12 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 21:36:19 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 11:47:18 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ void	philo_think(t_philo *philo)
 	if (check_is_die(philo))
 		return ;
 	philo_print(philo, STATE_THINK);
-	usleep(1000);
+	usleep(400);
 }

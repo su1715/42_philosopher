@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 17:20:46 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 20:18:42 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 11:55:05 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_philo_starve(t_monitor *monitor, t_philo *philo)
 	last_eat = philo->last_eat;
 	time_to_die = monitor->args->time_to_die;
 	pthread_mutex_lock(monitor->mutex_last_eat);
-	if (get_time_diff(last_eat) >= time_to_die)
+	if (get_time_diff(last_eat) > time_to_die)
 		is_starve = 1;
 	pthread_mutex_unlock(monitor->mutex_last_eat);
 	return (is_starve);

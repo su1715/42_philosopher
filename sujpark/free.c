@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:56:43 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 21:46:30 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 12:20:40 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,21 @@ void	free_monitor(t_monitor *monitor)
 	free(monitor->args);
 	free(monitor->philos);
 	free(monitor->thread_philos);
+	free(monitor->forks);
 	free(monitor->mutex_cnt_eat);
 	free(monitor->mutex_forks);
 	free(monitor->mutex_last_eat);
 	free(monitor);
 }
 
-void	clean_up(t_monitor *monitor)
+void	clean_monitor(t_monitor *monitor)
 {
-	usleep(10000); // 시간 ?
-	join_thread_philos(monitor);
 	destroy_mutexes(monitor);
 	free_monitor(monitor);
+}
+
+void	clean_up(t_monitor *monitor)
+{
+	join_thread_philos(monitor);
+	clean_monitor(monitor);
 }

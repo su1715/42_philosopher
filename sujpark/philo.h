@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 14:23:26 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 22:52:29 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 12:24:33 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,15 @@ typedef struct s_philo
 	int				cnt_eat;
 	int				*is_die;
 	int				*is_start;
+	int				*fork_left;
+	int				*fork_right;
 	pthread_mutex_t	*mutex_is_die;
 	pthread_mutex_t	*mutex_is_start;
 	pthread_mutex_t	*mutex_print;
 	pthread_mutex_t	*mutex_cnt_eat;
 	pthread_mutex_t	*mutex_last_eat;
-	pthread_mutex_t	*fork_left;
-	pthread_mutex_t	*fork_right;
+	pthread_mutex_t	*mutex_fork_left;
+	pthread_mutex_t	*mutex_fork_right;
 	t_timeval		*start_time;
 	t_timeval		last_eat;
 }			t_philo;
@@ -65,6 +67,7 @@ typedef struct s_monitor
 
 	int				is_die;
 	int				is_start;
+	int				*forks;
 	pthread_mutex_t	*mutex_cnt_eat;
 	pthread_mutex_t	*mutex_forks;
 	pthread_mutex_t	*mutex_last_eat;
@@ -85,16 +88,23 @@ t_arguments	*parse(int argc, char *argv[]);
 /* monitoring.c */
 void		monitoring(t_arguments *args);
 
+/* init_monitor */
+t_monitor	*allocate_monitor(void *args);
+int			init_monitor(t_monitor *monitor);
+
 /* philo.c */
 void		init_philos(t_monitor *monitor);
 int			run_philos(t_monitor *monitor);
 void		record_times(t_monitor *monitor);
 
-/* philo_util.c */
+/* philo_fork.c */
 void		philo_lock_forks(t_philo *philo);
 void		philo_unlock_forks(t_philo *philo);
+
+/* philo_util.c */
 void		philo_print(t_philo *philo, int state);
 void		philo_increase_cnt_eat(t_philo *philo);
+int			check_one_philo(t_philo *philo);
 
 /* set_flag.c */
 void		set_flag(pthread_mutex_t *mutex, int *flag);
@@ -119,18 +129,6 @@ void		print_error(char *str);
 /* free.c */
 void		destroy_mutexes(t_monitor *monitor);
 void		free_monitor(t_monitor *monitor);
+void		clean_monitor(t_monitor *monitor);
 void		clean_up(t_monitor *monitor);
 #endif
-
-/*
-[o] 파일 정리
-[o] 로직 확인
-[o] 함수 이름 변경
-[o] makefile
-[] 누수확인
-[] 주석제거
-[] norminette
-[] 헤더 체크
-[] 1명 예외처리
-[] 포크 변수 선언
-*/

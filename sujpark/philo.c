@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:23:48 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 22:51:02 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 10:55:34 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*run_philo(void *void_philo)
 {
-	t_philo	*philo; // 포크들 변수로도 선언하기?
+	t_philo	*philo;
 
 	philo = (t_philo *)void_philo;
 	while (!check_is_start(philo))
@@ -49,13 +49,15 @@ void	init_philos(t_monitor *monitor)
 		philo->cnt_eat = 0;
 		philo->is_die = &monitor->is_die;
 		philo->is_start = &monitor->is_start;
+		philo->fork_left = &monitor->forks[i];
+		philo->fork_right = &monitor->forks[(i + 1) % n_of_philo];
 		philo->mutex_is_die = &monitor->mutex_is_die;
 		philo->mutex_is_start = &monitor->mutex_is_start;
 		philo->mutex_print = &monitor->mutex_print;
 		philo->mutex_cnt_eat = &monitor->mutex_cnt_eat[i];
 		philo->mutex_last_eat = &monitor->mutex_last_eat[i];
-		philo->fork_left = &monitor->mutex_forks[i];
-		philo->fork_right = &monitor->mutex_forks[(i + 1) % n_of_philo];
+		philo->mutex_fork_left = &monitor->mutex_forks[i];
+		philo->mutex_fork_right = &monitor->mutex_forks[(i + 1) % n_of_philo];
 		philo->start_time = &monitor->start_time;
 	}
 }
