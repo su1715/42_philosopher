@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 15:58:37 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/05 22:51:42 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 14:39:06 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,12 @@ int	ft_isdigit(int c)
 long	get_time_diff(t_timeval start_time)
 {
 	t_timeval	end_time;
-	long		end_time_int;
-	long		start_time_int;
 
 	gettimeofday(&end_time, NULL);
-	end_time_int = \
-			(long)((end_time.tv_sec * 1000) + (end_time.tv_usec / 1000));
-	start_time_int = \
-			(long)((start_time.tv_sec * 1000) + (start_time.tv_usec / 1000));
-	return (end_time_int - start_time_int);
+	return (
+		(end_time.tv_sec - start_time.tv_sec) * 1000
+		+ (end_time.tv_usec - start_time.tv_usec) / 1000
+	);
 }
 
 char	*get_state_str(int state)

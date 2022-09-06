@@ -6,7 +6,7 @@
 /*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:23:48 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/06 10:55:34 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/06 14:38:43 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,15 @@ void	record_times(t_monitor *monitor)
 int	run_philos(t_monitor *monitor)
 {
 	int			i;
-	pthread_t	thread_philo;
+	pthread_t	*thread_philo;
 	t_philo		*philo;
 
 	i = -1;
 	while (++i < monitor->args->n_of_philo)
 	{
-		thread_philo = monitor->thread_philos[i];
+		thread_philo = &monitor->thread_philos[i];
 		philo = &monitor->philos[i];
-		if (pthread_create(&thread_philo, NULL, run_philo, philo))
+		if (pthread_create(thread_philo, NULL, run_philo, philo))
 		{
 			monitor->is_die = 1;
 			set_flag(&monitor->mutex_is_start, &monitor->is_start);
