@@ -14,7 +14,7 @@
 
 int	check_philo_end(t_monitor *monitor, t_philo *philo)
 {
-	if (check_philo_starve(monitor, philo))
+	if (check_philo_starve(philo))
 	{
 		set_flag(&monitor->mutex_is_die, &monitor->is_die);
 		philo_print(philo, STATE_DIE);

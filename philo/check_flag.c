@@ -32,17 +32,17 @@ int	check_is_die(t_philo *philo)
 	return (check_flag(philo->mutex_is_die, philo->is_die));
 }
 
-int	check_philo_starve(t_monitor *monitor, t_philo *philo)
+int	check_philo_starve(t_philo *philo)
 {
 	t_timeval	last_eat;
 	int			time_to_die;
 	int			is_starve;
 
 	is_starve = 0;
-	pthread_mutex_lock(monitor->mutex_last_eat);
+	pthread_mutex_lock(philo->mutex_last_eat);
 	last_eat = philo->last_eat;
-	pthread_mutex_unlock(monitor->mutex_last_eat);
-	time_to_die = monitor->args->time_to_die;
+	pthread_mutex_unlock(philo->mutex_last_eat);
+	time_to_die = philo->args->time_to_die;
 	if (get_time_diff(last_eat) > time_to_die)
 		is_starve = 1;
 	return (is_starve);

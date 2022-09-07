@@ -31,9 +31,15 @@ void	philo_sleep(t_philo *philo)
 
 void	philo_think(t_philo *philo)
 {
+	long	left;
+
 	if (check_is_die(philo))
 		return ;
 	philo_print(philo, STATE_THINK);
-	// usleep(400);
-	ms_usleep(philo->args->time_to_eat - philo->args->time_to_sleep + 1); // ex
+	if (philo->args->n_of_philo % 2 == 1)
+	{
+		left = philo->args->time_to_die - get_time_diff(philo->last_eat);
+		if (left > 0)
+			ms_usleep(left * 0.6);
+	}
 }
