@@ -113,7 +113,7 @@ void		set_last_eat(pthread_mutex_t *mutex_last_eat, t_timeval *last_eat);
 /* check_flag.c */
 int			check_is_start(t_philo *philo);
 int			check_is_die(t_philo *philo);
-int			check_philo_starve(t_monitor *monitor, t_philo *philo);
+int			check_philo_starve(t_philo *philo);
 int			check_philos_must_eat(t_monitor *monitor);
 
 /* philo_action.c */
