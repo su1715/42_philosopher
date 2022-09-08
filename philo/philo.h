@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sujpark <sujpark@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sujpark <sujpark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 14:23:26 by sujpark           #+#    #+#             */
-/*   Updated: 2022/09/06 18:37:50 by sujpark          ###   ########.fr       */
+/*   Updated: 2022/09/08 19:14:34 by sujpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int			check_one_philo(t_philo *philo);
 void		set_flag(pthread_mutex_t *mutex, int *flag);
 void		set_last_eat(pthread_mutex_t *mutex_last_eat, t_timeval *last_eat);
 
-/* get_flag.c */
+/* check_flag.c */
 int			check_is_start(t_philo *philo);
 int			check_is_die(t_philo *philo);
 int			check_philo_starve(t_monitor *monitor, t_philo *philo);
